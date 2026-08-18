@@ -39,6 +39,16 @@ subprojects {
     }
 }
 
+// Fix for plugins (like app_usage) whose Kotlin compile tasks don't pin
+// a jvmTarget, causing a mismatch against Java 1.8 compileOptions.
+subprojects {
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+}
+
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
