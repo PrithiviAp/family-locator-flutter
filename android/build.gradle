@@ -17,21 +17,10 @@ allprojects {
     }
 }
 
-rootProject.buildDir = '../build'
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
-}
-
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
-}
-
 // Fix for plugins (like app_usage) that don't declare a namespace,
-// which AGP 8.x requires. Pulls the package name from each plugin's
-// own AndroidManifest.xml and sets it as the namespace automatically.
+// which AGP 8.x requires. Must be registered BEFORE evaluationDependsOn
+// below, otherwise some subprojects will already be evaluated and
+// afterEvaluate will throw.
 subprojects {
     afterEvaluate { project ->
         if (project.plugins.hasPlugin("com.android.library")) {
@@ -48,4 +37,16 @@ subprojects {
             }
         }
     }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
 }
