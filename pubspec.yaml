@@ -1,0 +1,52 @@
+name: family_locator
+description: >
+  Transparent personal device finder / parental-visibility app. Shows a
+  persistent notification whenever tracking is active. No hidden background
+  service, no call recording, no message/notification interception, no
+  remote camera access.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # Persistent foreground service + always-visible notification while tracking runs.
+  flutter_foreground_task: ^8.10.4
+
+  # Location
+  geolocator: ^12.0.0
+
+  # Connectivity + GPS provider status
+  connectivity_plus: ^6.0.5
+  location: ^7.0.0
+
+  # HTTP + local storage
+  dio: ^5.5.0
+  shared_preferences: ^2.2.3
+
+  # Local notifications for GPS/internet on-off events
+  flutter_local_notifications: ^17.2.2
+
+  # Photo library access for backup
+  photo_manager: ^3.2.4
+
+  # Screen time / app usage (Android UsageStatsManager wrapper)
+  app_usage: ^3.0.1
+
+  # Background periodic sync scheduling
+  workmanager: ^0.5.2
+
+  permission_handler: ^11.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
