@@ -27,12 +27,18 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Create Gradle wrapper
+      - name: Install Gradle 8.4
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.4-bin.zip
+          unzip -q gradle-8.4-bin.zip
+          echo "$PWD/gradle-8.4/bin" >> "$GITHUB_PATH"
+
+      - name: Generate Gradle wrapper
         run: |
           cd android
           gradle wrapper --gradle-version 8.4
 
-      - name: Verify Gradle version
+      - name: Verify Gradle
         run: |
           cd android
           ./gradlew --version
