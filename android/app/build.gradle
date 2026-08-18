@@ -13,6 +13,18 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode') ?: '1'
+def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '1.0'
+
 android {
     namespace "com.familylocator.app"
     compileSdk 34
@@ -28,7 +40,6 @@ android {
     }
 
     defaultConfig {
-        // Change this before publishing — must be unique per app.
         applicationId "com.familylocator.app"
         minSdkVersion 26
         targetSdkVersion 34
@@ -38,7 +49,8 @@ android {
 
     buildTypes {
         release {
-            // TODO: replace with your own release signing config before shipping.
+            // Temporary signing configuration for testing.
+            // Use a proper release keystore before publishing to Play Store.
             signingConfig signingConfigs.debug
         }
     }
