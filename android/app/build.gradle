@@ -33,7 +33,7 @@ android {
     defaultConfig {
         applicationId "com.familylocator.app"
         minSdkVersion 26
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
