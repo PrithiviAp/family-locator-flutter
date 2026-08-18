@@ -28,3 +28,24 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+// Fix for plugins (like app_usage) that don't declare a namespace,
+// which AGP 8.x requires. Pulls the package name from each plugin's
+// own AndroidManifest.xml and sets it as the namespace automatically.
+subprojects {
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin("com.android.library")) {
+            def androidExt = project.extensions.findByName('android')
+            if (androidExt != null && androidExt.namespace == null) {
+                def manifestFile = file("${project.projectDir}/src/main/AndroidManifest.xml")
+                if (manifestFile.exists()) {
+                    def manifestXml = new groovy.xml.XmlSlurper().parse(manifestFile)
+                    def packageName = manifestXml.@package.text()
+                    if (packageName) {
+                        androidExt.namespace = packageName
+                    }
+                }
+            }
+        }
+    }
+}
